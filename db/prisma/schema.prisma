@@ -113,6 +113,7 @@ model User {
   comments       Comment[]
   commentUpvotes CommentUpvote[]
   upvotes        Upvote[]
+  mecmuaBlogs    MecmuaBlog[]
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now())
@@ -196,6 +197,19 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+}
+
+model MecmuaBlog {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  @@index([title])
 }
 
 model VerificationToken {
